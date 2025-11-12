@@ -40,4 +40,8 @@ impl Draw for GameView {
     fn draw(&self) -> ratatui::Frame {
         todo!()
     }
+
+    fn draw_mode(&self) -> crate::view::DrawMode {
+        todo!()
+    }
 }

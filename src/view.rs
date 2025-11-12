@@ -10,4 +10,10 @@ pub trait View: Draw {
 
 pub trait Draw {
     fn draw(&self) -> Frame;
+    fn draw_mode(&self) -> DrawMode;
+}
+
+pub enum DrawMode {
+    FPS(f32),
+    Draw(bool),
 }
