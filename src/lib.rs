@@ -1,11 +1,6 @@
-use crate::screen::Screen;
-
-pub mod presenter;
-pub mod screen;
+pub mod app;
 pub mod view;
 
-pub struct Tuy {
-    screen: Screen,
-}
+pub struct Tuy {}
 
 impl Tuy {}

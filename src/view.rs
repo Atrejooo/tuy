@@ -1,19 +1,25 @@
-use ratatui::Frame;
+use std::{
+    sync::mpsc::{self, Receiver},
+    time::Duration,
+};
 
-pub trait View: Draw {
-    type Data;
-    fn new(data: Self::Data) -> Self
-    where
-        Self: Sized;
-    fn update(&mut self, data: Self::Data);
+use crossterm::event::Event;
+use ratatui::{Frame, buffer::Buffer, layout::Rect, widgets::Widget};
+
+pub trait View: Widget {
+    fn start(&mut self);
+
+    fn update(&mut self, delta: Duration);
+
+    // render
 }
 
-pub trait Draw {
-    fn draw(&self) -> Frame;
-    fn draw_mode(&self) -> DrawMode;
-}
+// pub struct DrawData {
+//     area: Rect,
+//     buf: Buffer,
+// }
 
-pub enum DrawMode {
-    FPS(f32),
-    Draw(bool),
-}
+// pub enum DrawMode {
+//     FPS(f32),
+//     Draw(bool),
+// }
