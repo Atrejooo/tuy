@@ -1,5 +1,5 @@
 use std::{
-    sync::mpsc::{self, Receiver},
+    sync::mpsc::{self, Receiver, Sender},
     time::Duration,
 };
 
@@ -11,21 +11,19 @@ pub trait View<A>: Send + Sync {
 
     fn start(&mut self);
 
-    fn update(&mut self, time: &Time) -> Awnser<A>;
+    fn update(&mut self, time: &Time, action_sink: &mut Vec<Action<A>>);
 
-    fn after(&mut self, time: &Time) -> Awnser<A> {
-        Awnser::Idle
-    }
+    fn after(&mut self, time: &Time, action_sink: &mut Vec<Action<A>>) {}
 
     fn death(&mut self) {}
 
     fn draw(&self, frame: &mut Frame, area: Rect, assets: &A, time: &Time);
 }
 
-pub enum Awnser<A> {
-    Idle,
+pub enum Action<A> {
     Draw,
     Transition(Box<dyn View<A>>),
+    Spawn(Vec<Box<dyn View<A>>>),
     Kill,
     Stop,
 }

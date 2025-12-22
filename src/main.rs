@@ -1,10 +1,17 @@
 use ratatui::prelude::*;
-use tuy::view::{Awnser, Time, View};
+use tuy::app::{self, AppLayout};
+use tuy::view::{Action, Time, View};
 use tuy::{app::App, assets::Sprite};
 
 fn main() {
     let terminal = ratatui::init();
-    let mut app = App::new(terminal, ExampleAssets {}, Box::new(ExampleView {}), 60.0);
+    let mut app = App::new(
+        terminal,
+        ExampleAssets {},
+        ExampleLayout {},
+        Box::new(ExampleView {}),
+        60.0,
+    );
     app.run();
 
     // loop {
@@ -30,14 +37,22 @@ fn main() {
 //     frame.render_widget(Block::bordered().title("Right"), right_area);
 // }
 
-struct ExampleView {}
+struct ExampleLayout;
+
+impl AppLayout for ExampleLayout {
+    fn layout(element_count: usize, layer: usize, frame_area: Rect) -> std::rc::Rc<[Rect]> {
+        app::default_layout(element_count, frame_area)
+    }
+}
+
+struct ExampleView;
 
 impl View<ExampleAssets> for ExampleView {
     fn start(&mut self) {
         todo!()
     }
 
-    fn update(&mut self, time: &Time) -> Awnser<ExampleAssets> {
+    fn update(&mut self, time: &Time, action_sink: &mut Vec<Action<ExampleAssets>>) {
         todo!()
     }
 
@@ -53,7 +68,7 @@ impl View<ExampleAssets> for ExampleView {
 struct ExampleAssets {}
 
 impl ExampleAssets {
-    fn get_sprite<'a>(key: u8) -> &'a Sprite {
+    fn get_sprite<'a>(&self, key: Asset) -> &'a Sprite {
         todo!()
     }
 }
